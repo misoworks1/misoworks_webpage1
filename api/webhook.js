@@ -48,9 +48,9 @@ export default async function handler(req, res) {
           문의자명: {
             rich_text: [{ text: { content: name } }],
           },
-          연락처: {
-            phone_number: phone || null,
-          },
+          연락처: phone
+            ? { phone_number: phone }
+            : { phone_number: "" },
           이메일: {
             email: email || null,
           },

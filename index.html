@@ -1309,6 +1309,13 @@
             e.preventDefault();
             const formData = new FormData(form);
             const object = Object.fromEntries(formData);
+
+            // 체크박스 중복선택 처리
+            const problems = formData.getAll('problems');
+            const currentMarketing = formData.getAll('current_marketing');
+            object.problems = problems.join(', ');
+            object.current_marketing = currentMarketing.join(', ');
+
             const json = JSON.stringify(object);
 
             // Change button text to indicate processing
@@ -1317,22 +1324,31 @@
             submitButton.innerText = '전송 중...';
             submitButton.disabled = true;
 
-            fetch('https://api.web3forms.com/submit', {
+            // Web3Forms 전송 + Notion 자동 입력 동시 실행
+            const web3formsRequest = fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
                 body: json
-            })
-                .then(async (response) => {
-                    let json = await response.json();
+            });
+
+            const notionRequest = fetch('/api/webhook', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: json
+            }).catch(() => {});
+
+            Promise.all([web3formsRequest, notionRequest])
+                .then(async (responses) => {
+                    const response = responses[0];
+                    let result = await response.json();
                     if (response.status == 200) {
-                        // Success -> Redirect to thank you page
                         window.location.href = "thankyou.html";
                     } else {
                         console.log(response);
-                        alert("전송에 실패했습니다. 다시 시도해주세요. (" + json.message + ")");
+                        alert("전송에 실패했습니다. 다시 시도해주세요. (" + result.message + ")");
                         submitButton.innerText = originalText;
                         submitButton.disabled = false;
                     }

@@ -61,7 +61,7 @@ export default async function handler(req, res) {
             rich_text: [
               {
                 text: {
-                  content: `고민: ${problems}\n현재 마케팅: ${currentMarketing}`,
+                  content: `고민: ${problems}\n현재 마케팅: ${currentMarketing}\n예산: ${data["budget"] || "미선택"}`,
                 },
               },
             ],

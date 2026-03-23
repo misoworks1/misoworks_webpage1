@@ -26,6 +26,40 @@ export default async function handler(req, res) {
 
     const title = hospitalName || name || "신규 문의";
 
+    const properties = {
+      "문의 제목": {
+        title: [{ text: { content: title } }],
+      },
+      "상태": {
+        select: { name: "접수" },
+      },
+      "문의 유형": {
+        select: { name: "홈페이지" },
+      },
+      "문의자명": {
+        rich_text: [{ text: { content: name } }],
+      },
+      "이메일": {
+        email: email || null,
+      },
+      "접수일": {
+        date: { start: new Date().toISOString().split("T")[0] },
+      },
+      "메모": {
+        rich_text: [
+          {
+            text: {
+              content: `연락처: ${phone}\n고민: ${problems}\n현재 마케팅: ${currentMarketing}\n예산: ${data["budget"] || "미선택"}`,
+            },
+          },
+        ],
+      },
+    };
+
+    if (phone) {
+      properties["연락처"] = { phone_number: phone };
+    }
+
     const response = await fetch("https://api.notion.com/v1/pages", {
       method: "POST",
       headers: {
@@ -35,38 +69,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         parent: { database_id: DATABASE_ID },
-        properties: {
-          "문의 제목": {
-            title: [{ text: { content: title } }],
-          },
-          상태: {
-            select: { name: "접수" },
-          },
-          "문의 유형": {
-            select: { name: "홈페이지" },
-          },
-          문의자명: {
-            rich_text: [{ text: { content: name } }],
-          },
-          연락처: phone
-            ? { phone_number: phone }
-            : { phone_number: "" },
-          이메일: {
-            email: email || null,
-          },
-          접수일: {
-            date: { start: new Date().toISOString().split("T")[0] },
-          },
-          메모: {
-            rich_text: [
-              {
-                text: {
-                  content: `고민: ${problems}\n현재 마케팅: ${currentMarketing}\n예산: ${data["budget"] || "미선택"}`,
-                },
-              },
-            ],
-          },
-        },
+        properties,
       }),
     });
 

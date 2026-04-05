@@ -83,8 +83,8 @@
             }
 
             100% {
-                /* (250px width + 20px margin) * 5 original items = 1350px */
-                transform: translateX(-1350px);
+                /* (slide width + margin) * 9 original items */
+                transform: translateX(calc(-1 * var(--slide-total)));
             }
         }
 
@@ -99,35 +99,45 @@
         }
 
         .slider {
-            height: 520px;
+            --slide-w: 300px;
+            --slide-gap: 16px;
+            --slide-total: calc((var(--slide-w) + var(--slide-gap)) * 9);
             margin: auto;
             overflow: hidden;
             position: relative;
             width: 100%;
+            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
         }
 
         .slider .slide-track {
-            animation: scroll 30s linear infinite;
+            animation: scroll 35s linear infinite;
             display: flex;
-            width: calc(370px * 10);
-            /* 350px + 20px margin * 10 items */
+            width: max-content;
         }
 
         .slider .slide {
-            height: 480px;
-            width: 350px;
+            width: var(--slide-w);
             display: flex;
             align-items: center;
-            margin-right: 20px;
+            margin-right: var(--slide-gap);
             flex-shrink: 0;
         }
 
         .slider .slide img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            object-fit: contain;
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Mobile: smaller slides */
+        @media (max-width: 768px) {
+            .slider {
+                --slide-w: 220px;
+                --slide-gap: 12px;
+            }
         }
 
         .review-slider {
@@ -224,7 +234,7 @@
     </script>
 </head>
 
-<body class="bg-white text-gray-900 break-keep selection:bg-indigo-100 leading-loose md:leading-[2.5]">
+<body class="bg-white text-gray-900 break-keep selection:bg-indigo-100 leading-relaxed md:leading-loose">
 
     <!-- Header -->
     <header
@@ -251,8 +261,8 @@
             class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/40 via-[#0f172a] to-[#0f172a]">
         </div>
         <div class="max-w-5xl mx-auto text-center relative z-10 scroll-reveal">
-            <h2 class="text-3xl md:text-5xl font-bold leading-loose md:leading-[1.6] mb-8">
-                원장님, <br><br><span class="text-indigo-400">신환</span>이 늘지 않아 <br>고민이신가요?<br>
+            <h2 class="text-2xl md:text-5xl font-bold leading-normal md:leading-[1.6] mb-8">
+                원장님, <br class="md:hidden"><br><span class="text-indigo-400">신환</span>이 늘지 않아 <br>고민이신가요?<br>
                 <br>그렇다면 딱 <span class="text-yellow-400 border-b-2 border-yellow-400">3초만</span> 집중해주세요.
             </h2>
 
@@ -262,7 +272,7 @@
             <!-- Moved Performance Carousel Here -->
             <div class="mb-12 w-full overflow-hidden relative">
                 <div class="text-centercF mb-8">
-                    <h3 class="text-4xl md:text-6xl lg:text-8xl font-black text-white mb-4 animate-pulse">
+                    <h3 class="text-3xl md:text-6xl lg:text-8xl font-black text-white mb-4 animate-pulse">
                         '미소웍스..?'<br><br>
                         '처음 듣는데..'<br><br>
                     </h3>
@@ -302,7 +312,7 @@
                     class="text-center text-indigo-400 animate-bounce mb-8 text-2xl font-bold leading-none select-none">
                     ▼<br>▼<br>▼
                 </div>
-                <h3 class="text-center text-white font-bold tracking-widest uppercase mb-16 text-3xl md:text-4xl">클라이언트
+                <h3 class="text-center text-white font-bold tracking-widest uppercase mb-16 text-2xl md:text-4xl">클라이언트
                     Best 3 성과</h3>
                 <div class="grid md:grid-cols-3 gap-6 md:gap-8 text-left">
                     <!-- Box 1 -->
@@ -365,7 +375,7 @@
                 * 실제 미소웍스 클라이언트의 달성 성과입니다.
             </p>
             <h3
-                class="text-2xl md:text-3xl lg:text-4xl font-black text-center mt-20 mb-4 text-white leading-tight tracking-tight break-keep">
+                class="text-xl md:text-3xl lg:text-4xl font-black text-center mt-12 md:mt-20 mb-4 text-white leading-tight tracking-tight break-keep">
                 <!-- Gradient Line -->
                 <div class="h-24 w-0.5 bg-gradient-to-b from-transparent via-indigo-400 to-transparent mx-auto mb-12">
                 </div>
@@ -643,9 +653,9 @@
     <section id="fail" class="py-24 px-5 md:px-6 bg-gradient-to-b from-[#0f172a] to-gray-50 border-b border-gray-100">
         <div class="max-w-4xl mx-auto text-center scroll-reveal">
             <h3 class="text-2xl font-bold mb-6 text-red-500 tracking-widest uppercase">The Reason</h3>
-            <p class="text-3xl md:text-5xl font-bold text-gray-900 leading-loose md:leading-[1.6] mb-16">
+            <p class="text-2xl md:text-5xl font-bold text-gray-900 leading-normal md:leading-[1.6] mb-16">
                 왜 우리 치과의 마케팅은<br>
-                <span class="underline decoration-red-500 decoration-8 underline-offset-4">효과가 없을까요?</span>
+                <span class="underline decoration-red-500 decoration-4 md:decoration-8 underline-offset-4">효과가 없을까요?</span>
             </p>
             <div class="grid md:grid-cols-2 gap-8 text-left">
                 <div
@@ -709,7 +719,7 @@
                 </div>
 
                 <div class="relative z-10 space-y-6">
-                    <h4 class="text-3xl md:text-5xl font-black text-white leading-tight break-keep">
+                    <h4 class="text-2xl md:text-5xl font-black text-white leading-snug break-keep">
                         지금 치과는..<br><br>
                         <span class="text-red-600 drop-shadow-md">편의점보다 많습니다.</span>
                     </h4>
@@ -825,11 +835,11 @@
         <div class="max-w-5xl mx-auto text-center scroll-reveal pt-12">
             <div class="text-6xl mb-8 animate-bounce">✋</div>
             <h3
-                class="text-5xl md:text-7xl font-black mb-32 leading-normal md:leading-loose text-red-600 font-serif-kr break-keep">
-                그러니 지금 당장 자랑을 멈추세요.
+                class="text-3xl md:text-7xl font-black mb-16 md:mb-32 leading-snug md:leading-loose text-red-600 font-serif-kr break-keep">
+                그러니 지금 당장<br class="md:hidden"> 자랑을 멈추세요.
             </h3>
             <p
-                class="text-white text-3xl md:text-5xl font-bold leading-[200%] md:leading-[2.5] font-serif-kr mt-32 break-keep">
+                class="text-white text-2xl md:text-5xl font-bold leading-normal md:leading-[2.5] font-serif-kr mt-16 md:mt-32 break-keep">
                 환자는 단순한 자랑을 피해서 <br> 믿을 수 있는 치과를 찾고 있습니다.
             </p>
 
@@ -908,7 +918,7 @@
             <div class="md:w-2/3">
                 <div class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-xs rounded-full mb-6">
                     CEO MESSAGE</div>
-                <h2 class="text-4xl font-bold mb-8 text-gray-900 leading-normal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-900 leading-snug md:leading-normal">
                     직접 해보고<br>
                     <span class="text-indigo-600">몸으로 검증했습니다.</span>
                 </h2>
@@ -949,7 +959,7 @@
             <div class="md:w-1/2 w-full">
                 <span class="text-indigo-600 font-bold tracking-widest text-sm uppercase mb-2 block">FREE LEAD
                     MAGNET</span>
-                <h2 class="text-3xl font-bold mb-6 text-gray-900 leading-loose break-keep">
+                <h2 class="text-2xl md:text-3xl font-bold mb-6 text-gray-900 leading-snug md:leading-loose break-keep">
                     망설여지시나요?<br>
                     <span class="text-indigo-600">아직 문의하지 않으셔도 됩니다.</span>
                 </h2>
@@ -1028,68 +1038,68 @@
 
 
 
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                 <!-- 1. Brand Blog -->
                 <div
-                    class="bg-indigo-50 p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-48">
-                    <div class="text-4xl mb-4">📝</div>
-                    <h3 class="font-bold text-xl text-gray-900 break-keep">브랜드 블로그</h3>
+                    class="bg-indigo-50 p-5 md:p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-36 md:h-48">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">📝</div>
+                    <h3 class="font-bold text-base md:text-xl text-gray-900 break-keep">브랜드 블로그</h3>
                 </div>
 
                 <!-- 2. Place -->
                 <div
-                    class="bg-indigo-50 p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-48">
-                    <div class="text-4xl mb-4">📍</div>
-                    <h3 class="font-bold text-xl text-gray-900 break-keep">플레이스 집중관리</h3>
+                    class="bg-indigo-50 p-5 md:p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-36 md:h-48">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">📍</div>
+                    <h3 class="font-bold text-base md:text-xl text-gray-900 break-keep">플레이스 집중관리</h3>
                 </div>
 
                 <!-- 3. Cafe -->
                 <div
-                    class="bg-indigo-50 p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-48">
-                    <div class="text-4xl mb-4">☕</div>
-                    <h3 class="font-bold text-xl text-gray-900 break-keep">카페 바이럴</h3>
+                    class="bg-indigo-50 p-5 md:p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-36 md:h-48">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">☕</div>
+                    <h3 class="font-bold text-base md:text-xl text-gray-900 break-keep">카페 바이럴</h3>
                 </div>
 
                 <!-- 4. Carrot -->
                 <div
-                    class="bg-indigo-50 p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-48">
-                    <div class="text-4xl mb-4">🥕</div>
-                    <h3 class="font-bold text-xl text-gray-900 break-keep">당근마켓</h3>
+                    class="bg-indigo-50 p-5 md:p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-36 md:h-48">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">🥕</div>
+                    <h3 class="font-bold text-base md:text-xl text-gray-900 break-keep">당근마켓</h3>
                 </div>
 
                 <!-- 5. Power Link -->
                 <div
-                    class="bg-indigo-50 p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-48">
-                    <div class="text-4xl mb-4">🔍</div>
-                    <h3 class="font-bold text-xl text-gray-900 break-keep">파워링크</h3>
+                    class="bg-indigo-50 p-5 md:p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-36 md:h-48">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">🔍</div>
+                    <h3 class="font-bold text-base md:text-xl text-gray-900 break-keep">파워링크</h3>
                 </div>
 
                 <!-- 6. Press -->
                 <div
-                    class="bg-indigo-50 p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-48">
-                    <div class="text-4xl mb-4">📰</div>
-                    <h3 class="font-bold text-xl text-gray-900 break-keep">언론 보도</h3>
+                    class="bg-indigo-50 p-5 md:p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-36 md:h-48">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">📰</div>
+                    <h3 class="font-bold text-base md:text-xl text-gray-900 break-keep">언론 보도</h3>
                 </div>
 
                 <!-- 7. Homepage -->
                 <div
-                    class="bg-indigo-50 p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-48">
-                    <div class="text-4xl mb-4">🌐</div>
-                    <h3 class="font-bold text-xl text-gray-900 break-keep">치과 홈페이지 제작</h3>
+                    class="bg-indigo-50 p-5 md:p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-36 md:h-48">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">🌐</div>
+                    <h3 class="font-bold text-base md:text-xl text-gray-900 break-keep">치과 홈페이지 제작</h3>
                 </div>
 
                 <!-- 8. Opening Package -->
                 <div
-                    class="bg-indigo-50 p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-48">
-                    <div class="text-4xl mb-4">🏥</div>
-                    <h3 class="font-bold text-xl text-gray-900 break-keep">개원 치과 패키지</h3>
+                    class="bg-indigo-50 p-5 md:p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-36 md:h-48">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">🏥</div>
+                    <h3 class="font-bold text-base md:text-xl text-gray-900 break-keep">개원 치과 패키지</h3>
                 </div>
 
                 <!-- 9. Dental Design -->
                 <div
-                    class="bg-indigo-50 p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-48">
-                    <div class="text-4xl mb-4">🎨</div>
-                    <h3 class="font-bold text-xl text-gray-900 break-keep">치과 전문 디자인</h3>
+                    class="bg-indigo-50 p-5 md:p-8 rounded-2xl shadow-sm border border-indigo-100/50 hover:shadow-md hover:-translate-y-1 transition duration-300 flex flex-col items-center justify-center text-center h-36 md:h-48 col-span-2 md:col-span-1">
+                    <div class="text-3xl md:text-4xl mb-3 md:mb-4">🎨</div>
+                    <h3 class="font-bold text-base md:text-xl text-gray-900 break-keep">치과 전문 디자인</h3>
                 </div>
             </div>
         </div>
